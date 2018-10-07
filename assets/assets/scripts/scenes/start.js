@@ -7,6 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+var backgroundModule = require('background');
 
 cc.Class({
     extends: cc.Component,
@@ -27,15 +28,33 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+
+        //功能模块
+        backgroundModule:
+        {
+            default:null,
+            type:backgroundModule,
+        },
+
+        playerModule:null,
+
+        itemModule:null,
+
+        label:cc.Label,
     }),
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
-
-    start () {
-
+    onLoad () {
+        this.backgroundModule.initBackgroundImagesPosotion();
     },
 
-    // update (dt) {},
+    // start () {
+
+    // },
+
+    update (dt) {
+        this.backgroundModule.startScrollBackgroundImages();
+        this.backgroundModule.checkScrollingBackgroundImages();
+    },
 });
