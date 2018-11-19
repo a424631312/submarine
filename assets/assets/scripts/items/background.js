@@ -12,22 +12,6 @@ cc.Class({
     extends: cc.Component,
 
     properties:()=> ({
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
-
         //包含需要滚动的图片的数组(元素类型为Node,即在层级管理器中存在的图片资源)
         iamgeArray:{
         	default:[],
@@ -76,7 +60,7 @@ cc.Class({
     },
 
     //开始滚动背景图
-    startScrollBackgroundImages: function()
+    startAndKeepScrollingBackgroundImages: function()
     {
     	let array = this.iamgeArray;
 
@@ -85,10 +69,10 @@ cc.Class({
     		let image = array[i];
 
     		image.x -= this.scrollSpeed;
-    //检查背景图是否需要重置
     	}
     },
 
+    //检查背景图是否需要重置
     checkScrollingBackgroundImages: function()
     {
     	let array = this.iamgeArray;

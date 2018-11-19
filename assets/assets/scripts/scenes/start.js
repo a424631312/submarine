@@ -8,38 +8,34 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 var backgroundModule = require('background');
+var submarine = require('submarine');
+var mine = require('mine');
+var gameState = require('common');
 
 cc.Class({
     extends: cc.Component,
 
     properties:()=> ({
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
-
         //功能模块
+        //背景
         backgroundModule:
         {
             default:null,
             type:backgroundModule,
         },
-
-        playerModule:null,
-
-        itemModule:null,
-
+        //玩家
+        playerModule:
+        {
+            default:null,
+            type:submarine,
+        },
+        //鱼雷
+        itemModule:
+        {
+            default:null,
+            type:mine,
+        },
+        //计分label
         label:cc.Label,
     }),
 
@@ -47,6 +43,7 @@ cc.Class({
 
     onLoad () {
         this.backgroundModule.initBackgroundImagesPosotion();
+        this.playerModule.init();
     },
 
     // start () {
@@ -54,7 +51,22 @@ cc.Class({
     // },
 
     update (dt) {
-        this.backgroundModule.startScrollBackgroundImages();
-        this.backgroundModule.checkScrollingBackgroundImages();
+        // if (window.common.gameState == gameState.pause || window.common.gameState == gameState.stop)
+        // {
+        //     return;
+        // }
+        // else 
+        // {
+            //保持背景移动
+            this.backgroundModule.startAndKeepScrollingBackgroundImages();
+            this.backgroundModule.checkScrollingBackgroundImages();
+            //保持潜艇下沉
+            if (this.playerModule.isTouching == false)
+            {
+                this.playerModule.startAndKeepDeclining();
+            }
+            
+        // }
+        
     },
 });
